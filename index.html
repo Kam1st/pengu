@@ -101,6 +101,7 @@
       height: 100%;
       object-fit: cover;
       border-radius: 13px;
+      transition: opacity 0.25s ease;
     }
 
     .buttons-wrap {
@@ -205,7 +206,7 @@
   <section id="ask-screen" class="screen active">
     <h1 id="valentine-text">will you be my valentine? pretty please? i luv u💕</h1>
     <div class="photo-placeholder" id="photo-placeholder">
-      <img src="pengu.jpg" alt="Pengu">
+      <img id="valentine-photo" src="pengu.jpg" alt="Pengu">
     </div>
     <div class="buttons-wrap">
       <button type="button" class="btn btn-yes" id="btn-yes">Yes!</button>
@@ -227,6 +228,22 @@
     const btnYes = document.getElementById('btn-yes');
     const btnNo = document.getElementById('btn-no');
     const valentineText = document.getElementById('valentine-text');
+    const valentinePhoto = document.getElementById('valentine-photo');
+
+    // Add more image filenames here (same folder as index.html). Cycles with the messages.
+    // Use the same file multiple times if you only have one pic – it'll still swap visibly.
+    const noHoverImages = [
+      'pengu.jpg',
+      'pengu2.jpg',
+      'pengu3.jpg',
+      'pengu4.jpg',
+      'pengu5.jpg',
+      'pengu6.jpg',
+      'pengu7.jpg',
+      'pengu8.jpg',
+      'pengu9.jpg',
+      'pengu10.jpg'
+    ];
 
     const noHoverMessages = [
       'will you be my valentine? pretty please? i luv u💕',
@@ -458,6 +475,15 @@
         applyYesSize();
         messageIndex = (messageIndex + 1) % noHoverMessages.length;
         valentineText.textContent = noHoverMessages[messageIndex];
+        if (valentinePhoto) {
+          const imgPath = noHoverImages[messageIndex % noHoverImages.length].split('?')[0];
+          const newSrc = imgPath + '?n=' + messageIndex;
+          valentinePhoto.style.opacity = '0';
+          setTimeout(function() {
+            valentinePhoto.src = newSrc;
+            valentinePhoto.onload = valentinePhoto.onerror = function() { valentinePhoto.style.opacity = '1'; };
+          }, 260);
+        }
       } else if (!nearNo) {
         wasNearNo = false;
       }
