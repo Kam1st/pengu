@@ -172,7 +172,8 @@
 
     .congrats-screen h2,
     .congrats-screen p,
-    .congrats-screen .hearts {
+    .congrats-screen .hearts,
+    .congrats-screen .congrats-rizz {
       position: relative;
       z-index: 10;
       background: rgba(255, 248, 245, 0.98);
@@ -183,6 +184,13 @@
 
     .congrats-screen .hearts {
       padding: 0.4rem 0.6rem;
+    }
+
+    .congrats-screen .congrats-rizz {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: #6b3a4d;
+      margin-top: 1rem;
+      font-style: italic;
     }
 
     .congrats-screen h2 {
@@ -232,6 +240,7 @@
     <h2>YAAAAAAAAAAAAAAAAAAAY!</h2>
     <p>u just said yes to being mine again. best decision ever trust. je t'aime 💕</p>
     <div class="hearts">♥ ♥ ♥</div>
+    <p class="congrats-rizz">and that's nerd coding rizz for ya 😎🥺</p>
   </section>
 
   <script>
@@ -378,8 +387,8 @@
 
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-      const centerZoneW = window.innerWidth * 0.32;
-      const centerZoneH = window.innerHeight * 0.2;
+      const centerZoneW = window.innerWidth * 0.52;
+      const centerZoneH = window.innerHeight * 0.4;
 
       function inCenterZone(x, y) {
         return Math.abs(x - centerX) < centerZoneW / 2 && Math.abs(y - centerY) < centerZoneH / 2;
@@ -446,24 +455,33 @@
     const padding = 20;
 
     function getRandomPosition() {
-      const yesRect = btnYes.getBoundingClientRect();
-      const yesPadding = 30;
+      const zonePadding = 25;
       const noWidth = btnNo.offsetWidth;
       const noHeight = btnNo.offsetHeight;
-      const safeYes = {
-        left: yesRect.left - yesPadding,
-        right: yesRect.right + yesPadding,
-        top: yesRect.top - yesPadding,
-        bottom: yesRect.bottom + yesPadding
-      };
+
+      const yesRect = btnYes.getBoundingClientRect();
+      const textRect = valentineText.getBoundingClientRect();
+      const photoRect = document.getElementById('photo-placeholder').getBoundingClientRect();
+
+      const safeZones = [
+        { left: yesRect.left - zonePadding, right: yesRect.right + zonePadding, top: yesRect.top - zonePadding, bottom: yesRect.bottom + zonePadding },
+        { left: textRect.left - zonePadding, right: textRect.right + zonePadding, top: textRect.top - zonePadding, bottom: textRect.bottom + zonePadding },
+        { left: photoRect.left - zonePadding, right: photoRect.right + zonePadding, top: photoRect.top - zonePadding, bottom: photoRect.bottom + zonePadding }
+      ];
+
+      function overlapsAny(noLeft, noTop, noRight, noBottom) {
+        return safeZones.some(z =>
+          !(noRight < z.left || noLeft > z.right || noBottom < z.top || noTop > z.bottom)
+        );
+      }
+
       let left, top;
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 40; i++) {
         left = padding + Math.random() * (window.innerWidth - noWidth - padding * 2);
         top = padding + Math.random() * (window.innerHeight - noHeight - padding * 2);
         const noRight = left + noWidth;
         const noBottom = top + noHeight;
-        const overlaps = !(noRight < safeYes.left || left > safeYes.right || noBottom < safeYes.top || top > safeYes.bottom);
-        if (!overlaps) break;
+        if (!overlapsAny(left, top, noRight, noBottom)) break;
       }
       return { left, top };
     }
