@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!--- made with love, also i know you're gonna read this right now and I love you for that --->
+  <!--- code by kam1st --->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +27,6 @@
       position: relative;
     }
 
-    /* Floating hearts background */
     body::before,
     body::after {
       content: '♥';
@@ -45,7 +46,7 @@
       right: 15%;
       animation-delay: 3s;
     }
-    @keyframes float {
+    @keyframes float { 
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-35px); }
     }
@@ -70,7 +71,6 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* ========== ASK SCREEN ========== */
     .ask-screen h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.5rem, 5vw, 2.5rem);
@@ -167,7 +167,6 @@
       50% { box-shadow: 0 5px 22px rgba(108, 92, 231, 0.45); }
     }
 
-    /* ========== CONGRATS SCREEN ========== */
     .congrats-screen {
       padding: 2rem;
       position: relative;
@@ -236,7 +235,6 @@
   </style>
 </head>
 <body>
-  <!-- Ask screen -->
   <section id="ask-screen" class="screen active">
     <h1 id="valentine-text">hi jeremy (aka jay, aka my love), will you be my valentine? pretty please? i luv u 💕</h1>
     <div class="photo-placeholder" id="photo-placeholder">
@@ -249,7 +247,6 @@
     </div>
   </section>
 
-  <!-- Congrats screen -->
   <section id="congrats-screen" class="screen">
     <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
     <h2>YAAAAAAAAAAAAAAAAAAAY!</h2>
@@ -266,8 +263,6 @@
     const valentineText = document.getElementById('valentine-text');
     const valentinePhoto = document.getElementById('valentine-photo');
 
-    // Add more image filenames here (same folder as index.html). Cycles with the messages.
-    // Use the same file multiple times if you only have one pic – it'll still swap visibly.
     const noHoverImages = [
       'pengu.jpg',
       'pengu2.jpg',
@@ -341,14 +336,12 @@
     ];
     let messageIndex = 0;
 
-    // Yes button: show congrats screen + fireworks
     btnYes.addEventListener('click', () => {
       askScreen.classList.remove('active');
       congratsScreen.classList.add('active');
       startFireworks();
     });
 
-    // ========== Fireworks on congrats screen ==========
     const canvas = document.getElementById('fireworks-canvas');
     const ctx = canvas.getContext('2d');
     let fireworksAnimId = null;
@@ -465,7 +458,6 @@
     }
     window.addEventListener('resize', () => { if (congratsScreen.classList.contains('active')) startFireworks(); });
 
-    // No button: run away when mouse gets close (jump anywhere on screen, avoiding Yes button)
     let runAwayCooldown = false;
     const padding = 20;
 
